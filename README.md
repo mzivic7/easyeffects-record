@@ -44,5 +44,5 @@ options:
 ## Installing
 1. Clone this repository: `git clone https://github.com/mzivic7/easyeffects-record`  
 2. `cd easyeffects-record`
-3. Copy script to system: `sudo cp easyeffects-record /usr/local/sbin/`  
+3. Copy script to system: `sudo cp easyeffects-record.py /usr/local/sbin/easyeffects-record`  
 4. Install all dependencies with your package manager  
