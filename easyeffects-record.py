@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 
+import argparse
+import os.path
+import subprocess
 import sys
 import time
-import os.path
-import argparse
-import subprocess
 
 
 def launch_easyeffects(preset):
+    """If easyeffects is not running, launch it with desired preset"""
     command = "ps cax | grep easyeffects"
     ps = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     running = ps.communicate()[0]
@@ -21,16 +22,15 @@ def launch_easyeffects(preset):
         easyeffects = subprocess.Popen(command, shell=True)
         time.sleep(3)
         return easyeffects
+    if preset and preset != "auto":
+        print("Easy Effects is already running, cannot set preset")
     else:
-        if preset and preset != "auto":
-            print("Easy Effects is already running, cannot set preset")
-        else:
-            print("Easy Effects is already running")
-        return None
+        print("Easy Effects is already running")
+    return None
 
 
 def disconnect_output():
-    """Disconnects Easy Effects from speaker output"""
+    """Disconnect Easy Effects from speaker output"""
     command = "pw-link --id --links"
     pw_link = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
     links = pw_link.communicate()[0].decode()
@@ -44,7 +44,7 @@ def disconnect_output():
 
 
 def re_record(root, file_path, output_extension, mute):
-    """Re-records song by playing it and recording output from Easy Effects"""
+    """Re-record song by playing it and recording output from Easy Effects"""
     # start recorder
     command = "pw-record --target 0 temp.wav"
     recorder = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE)
@@ -88,6 +88,7 @@ def re_record(root, file_path, output_extension, mute):
 
 
 def main(args):
+    """Main function"""
     song_path = args.song_path
     input_extensions = args.input_extensions
     output_extension = args.output_extension
@@ -142,10 +143,10 @@ def main(args):
 
 
 def argparser():
-    """Sets up argument parser for CLI"""
+    """Setup argument parser for CLI"""
     parser = argparse.ArgumentParser(
         prog="easyeffects-record",
-        description="Automated player and recorder, allowing re-recording one or multiple songs with applied effects from Easy Effects tool"
+        description="Automated player and recorder, allowing re-recording one or multiple songs with applied effects from Easy Effects tool",
         )
     parser._positionals.title = "arguments"
     parser.add_argument(
@@ -155,7 +156,7 @@ def argparser():
         help='Path to target song file, if not specified, will run recursively in current directory. \
               When recursing, input-extension will be used to filter files, \
               and files from "output" directory will be omitted. If file path is provided, \
-              new file will be saved in "output" directory in current directory'
+              new file will be saved in "output" directory in current directory',
         )
     parser.add_argument(
         "-i",
@@ -164,7 +165,7 @@ def argparser():
         type=str,
         metavar="EXT",
         default=["mp3", "m4a"],
-        help="list of input extensions to scan for in directories, default: mp3, m4a"
+        help="list of input extensions to scan for in directories, default: mp3, m4a",
         )
     parser.add_argument(
         "-o",
@@ -172,26 +173,26 @@ def argparser():
         type=str,
         metavar="EXT",
         default="mp3",
-        help="output file extension, default: mp3"
+        help="output file extension, default: mp3",
         )
     parser.add_argument(
         "-p",
         "--preset",
         type=str,
         action=None,
-        help="Easy Effects preset, default: auto"
+        help="Easy Effects preset, default: auto",
         )
     parser.add_argument(
         "-s",
         "--slent",
         action="store_true",
-        help="disconnects Easy Effects from device sound output, but still records sound"
+        help="disconnects Easy Effects from device sound output, but still records sound",
         )
     parser.add_argument(
         "-v",
         "--version",
         action="version",
-        version="%(prog)s 0.1.0"
+        version="%(prog)s 0.1.0",
         )
     return parser.parse_args()
 
