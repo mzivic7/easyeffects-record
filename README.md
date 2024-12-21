@@ -42,8 +42,10 @@ options:
 [pipewire](https://pipewire.org/) - Easy Effects dependency, also used for recording audio  
 
 ## Installing
-1. Install all dependencies with your package manager
-2. Clone this repository: `git clone https://github.com/mzivic7/easyeffects-record`
-3. `cd easyeffects-record`
-4. Copy script to system: `sudo cp easyeffects-record.py /usr/local/sbin/easyeffects-record`
-5. Make it executable: `sudo chmod +x /usr/local/sbin/easyeffects-record`
+- From AUR: `yay -S easyeffects-record`
+- Manual:
+    - Install all dependencies with your package manager
+    - Clone this repository: `git clone https://github.com/mzivic7/easyeffects-record`
+    - `cd easyeffects-record`
+    - Copy script to system: `sudo cp easyeffects-record.py /usr/local/sbin/easyeffects-record`
+    - Make it executable: `sudo chmod +x /usr/local/sbin/easyeffects-record`
